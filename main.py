@@ -9,7 +9,7 @@ import asyncio
 class SetuPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
-        self.r18 = 0
+        self.r18 = 0 # 默认关闭R18
         self.cd = 10  # 默认冷却时间为 10 秒
         self.last_usage = {} # 存储每个用户上次使用指令的时间
         self.semaphore = asyncio.Semaphore(10)  # 限制并发请求数量为 10
@@ -129,11 +129,11 @@ class SetuPlugin(Star):
         yield event.plain_result(f"涩图指令冷却时间已设置为 {cd} 秒。")
 
     @filter.permission_type(filter.PermissionType.ADMIN)
-    @filter.command("r18")
+    @filter.command("setur18")
     async def test(self, event: AstrMessageEvent, status: int):
         if status > 0:
             self.r18 = 1
-            yield event.plain_result("taisele")
+            yield event.plain_result("🤤taisele")
         if status == 0:
             self.r18 = 0
             yield event.plain_result("🔞禁止涩涩")
@@ -147,6 +147,7 @@ class SetuPlugin(Star):
         - `/setu`: 发送一张随机涩图。
         - `/taisele`: 发送一张随机R18涩图。
         - `/setucd <冷却时间>`: 设置涩图指令的冷却时间（秒）。
+        - `/setur18 <0/1>`: R18开关（仅op，默认为0关闭）。
         - `/setu_help`: 显示此帮助信息。
 
         **使用方法:**
